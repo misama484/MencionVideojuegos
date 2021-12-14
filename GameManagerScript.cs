@@ -10,8 +10,8 @@ public class GameManagerScript : MonoBehaviour
     //EJ2 creamos la lista que almacenara las cartas
     List<GameObject> cards = new List<GameObject>();
 
-    // Start is called before the first frame update
-    void Start()
+
+    /*void Start()
     {
         //instanciamos el prefab en tiempo de ejecucion en la posicion indicada
         //Instantiate(myPrefab, new Vector3(-8, 3, 0), Quaternion.identity);
@@ -42,6 +42,32 @@ public class GameManagerScript : MonoBehaviour
             Debug.Log(card.name);
         }
         
+    }
+    */
+
+    
+
+    void Start()
+    {
+        float posX = -8;
+        float posY = 3;
+
+        GameObject nuevaCarta;
+
+        for (int i = 0; i < 10; i++)
+        {
+            nuevaCarta = Instantiate(myPrefab, new Vector3(posX, posY, 0), Quaternion.identity);
+            nuevaCarta.name = "card" + i;
+            cards.Add(nuevaCarta);
+
+            posX += 3;
+            if (i == 4)
+            {
+                posX = -8;
+                posY = -2;
+            }
+        }
+
     }
 
     // Update is called once per frame

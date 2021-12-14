@@ -4,10 +4,53 @@ using UnityEngine;
 
 public class CardScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //creo una variable del tipo SpriteRenderer para capturar el componente SpriteRenderer
+    SpriteRenderer myRenderer;
+    //declaro una variable donde asignare la imagen del frente de la carta (desde unity, con el boton open Prefab, arrastramos la imagen a la variable.
+    public Sprite frontal;
+    public Sprite trasera;
+    //con este booleano controlaremos que la carta este bocaarriba o bocaabajo
+    bool ladoCarta = false;
+
+    private void Awake()//se puede hacer en este metodo, que se ejecuta cuando iniciamos el juego o en el metodo Start
+    {
+        //aqui asignamos el componente a la variable
+        myRenderer = GetComponent<SpriteRenderer>();
+    }
     void Start()
     {
-        /*
+
+    }
+
+    //metodo que controla el click del raton
+    private void OnMouseDown()
+    {
+        Debug.Log("Has hecho click en la carta " + name);
+        //para controlar que al hacer click, de la vuelta la carta
+        if (!ladoCarta) //si la carta NO esta bocaarriba
+        {
+            myRenderer.sprite = frontal; //mostramos el frente             
+        }
+        else //SI esta bocaarriba
+        {
+            myRenderer.sprite = trasera; //mostramos la trasera        
+        }
+
+        //y cambiamos el valor del booleano
+        ladoCarta = !ladoCarta;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+}
+
+
+
+ /*
+  * esto va en el start
         //averiguamos posicion del GO
         Vector3 pos = transform.position;
         //Creamos nueva posicion
@@ -20,14 +63,3 @@ public class CardScript : MonoBehaviour
         //aplicamos la rotacion
         Debug.Log("La posicion de la carta es " + pos);
         */
-
-        //Ejercicio1
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Rotate(new Vector3(0, 0, 15) * Time.deltaTime);
-    }
-}
