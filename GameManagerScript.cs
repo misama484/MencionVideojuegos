@@ -10,6 +10,13 @@ public class GameManagerScript : MonoBehaviour
     //EJ2 creamos la lista que almacenara las cartas
     List<GameObject> cards = new List<GameObject>();
 
+    //EJ5 lista que contendra el frontal de las cartas(imagenes)
+    //la lista tiene 10 imagenes, 5 imagenes 2 veces, para asi salgan 2 de cada.
+    public List<Sprite> imagenesFrente;
+    //contendra el nuemro aleatorio
+    private int valor;
+
+
 
     /*void Start()
     {
@@ -57,7 +64,14 @@ public class GameManagerScript : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             nuevaCarta = Instantiate(myPrefab, new Vector3(posX, posY, 0), Quaternion.identity);
+            //metodo que anyade la imagen aleatoria
+            anyadeImagen(nuevaCarta);
             nuevaCarta.name = "card" + i;
+
+            //para asignar la imagen de frente aleatoria, usamos la funcion RandomRange de unity(devuelve un int entre minValor y maxValor-1)
+                //int valor = Random.Range(0, 5);
+            //accedemos a la prop fontal del GO nuevaCarta y le asignamos la posicion valor de la lista de imagenes
+                //nuevaCarta.GetComponent<CardScript>().frontal = imagenesFrente[valor];
             cards.Add(nuevaCarta);
 
             posX += 3;
@@ -74,5 +88,15 @@ public class GameManagerScript : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void anyadeImagen(GameObject nuevaCarta)
+    {
+        //generamos un nuemero aleatorio entre 0 y la longitud de la lista
+        valor = Random.Range(0, imagenesFrente.Count);
+        //le asignamos la imagen perteneciente al valor de la lista
+        nuevaCarta.GetComponent<CardScript>().frontal = imagenesFrente[valor];
+        //eliminamos el elemento de la lista para que no se repita
+        imagenesFrente.RemoveAt(valor);
     }
 }
