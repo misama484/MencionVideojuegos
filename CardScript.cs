@@ -9,13 +9,17 @@ public class CardScript : MonoBehaviour
     //declaro una variable donde asignare la imagen del frente de la carta (desde unity, con el boton open Prefab, arrastramos la imagen a la variable.
     public Sprite frontal;
     public Sprite trasera;
+    public string tipo;
     //con este booleano controlaremos que la carta este bocaarriba o bocaabajo
     bool ladoCarta = false;
+    //EJ5 definimos un GO myGameManager para acceder al GameManager(pondremos una tag en el GameManager en Unity para localizarlo mas abajo
+    GameObject myGameManager;
 
     private void Awake()//se puede hacer en este metodo, que se ejecuta cuando iniciamos el juego o en el metodo Start
     {
         //aqui asignamos el componente a la variable
         myRenderer = GetComponent<SpriteRenderer>();
+        myGameManager = GameObject.FindGameObjectWithTag("GameController"); //buscamos el GO con la etiqueta que le hemos puesto en Unity
     }
     void Start()
     {
@@ -25,7 +29,9 @@ public class CardScript : MonoBehaviour
     //metodo que controla el click del raton
     private void OnMouseDown()
     {
-        Debug.Log("Has hecho click en la carta " + name);
+
+        //accedemos al metodo que esta en el GameManager(debe ser publico para poder acceder)
+        myGameManager.GetComponent<GameManagerScript>().clickOnCard(tipo);
         //para controlar que al hacer click, de la vuelta la carta
         if (!ladoCarta) //si la carta NO esta bocaarriba
         {

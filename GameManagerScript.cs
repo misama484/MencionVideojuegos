@@ -15,6 +15,9 @@ public class GameManagerScript : MonoBehaviour
     public List<Sprite> imagenesFrente;
     //contendra el nuemro aleatorio
     private int valor;
+    //EJ5 Este array contiene los nombre de las cartas, coinciden con la posicion de cada una de ellas en la lista de gamemanager
+    // en la lista de imagenes de unity tenemos las 5 cartas 2 veces en orden, por lo que repetimos los nombres
+    string[] tipo = { "Bruja", "Guarda", "Asesino", "Ovispo", "Contable", "Bruja", "Guarda", "Asesino", "Ovispo", "Contable" };
 
 
 
@@ -96,7 +99,14 @@ public class GameManagerScript : MonoBehaviour
         valor = Random.Range(0, imagenesFrente.Count);
         //le asignamos la imagen perteneciente al valor de la lista
         nuevaCarta.GetComponent<CardScript>().frontal = imagenesFrente[valor];
+        //EJ6 Asignamos el tipo de carta a la carta generada
+        nuevaCarta.GetComponent<CardScript>().tipo = tipo[valor];
         //eliminamos el elemento de la lista para que no se repita
         imagenesFrente.RemoveAt(valor);
+    }
+
+    public void clickOnCard(string tipo)
+    {
+        Debug.Log("clickOnCard " + tipo);
     }
 }
