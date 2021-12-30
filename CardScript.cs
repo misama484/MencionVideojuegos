@@ -15,6 +15,8 @@ public class CardScript : MonoBehaviour
     //EJ5 definimos un GO myGameManager para acceder al GameManager(pondremos una tag en el GameManager en Unity para localizarlo mas abajo
     //GameObject myGameManager;
     GameManagerScript myGameManagerScript;
+    //Ej7, creamos un indice que nos dira que carta es en el array para controlar las que volteamos
+    public int index;
 
     private void Awake()//se puede hacer en este metodo, que se ejecuta cuando iniciamos el juego o en el metodo Start
     {
@@ -34,8 +36,14 @@ public class CardScript : MonoBehaviour
 
         //accedemos al metodo que esta en el GameManager(debe ser publico para poder acceder)
         //myGameManager.GetComponent<GameManagerScript>().clickOnCard(tipo);
-        myGameManagerScript.clickOnCard(tipo);
+        myGameManagerScript.clickOnCard(tipo, index);
         //para controlar que al hacer click, de la vuelta la carta
+        Voltea();
+        
+    }
+
+    public void Voltea() //funcion que da la voltea a las cartas
+    {
         if (!ladoCarta) //si la carta NO esta bocaarriba
         {
             myRenderer.sprite = frontal; //mostramos el frente             
@@ -44,8 +52,7 @@ public class CardScript : MonoBehaviour
         {
             myRenderer.sprite = trasera; //mostramos la trasera        
         }
-
-        //y cambiamos el valor del booleano
+        //cambiamos el valor del booleano
         ladoCarta = !ladoCarta;
     }
 

@@ -24,6 +24,7 @@ public class GameManagerScript : MonoBehaviour
     //variable estado, definira en que estado esta la carta (Ej6)
     int state = 1;
     int cartaArriba;
+    int cartaIndex;
 
 
 
@@ -90,8 +91,11 @@ public class GameManagerScript : MonoBehaviour
                 }
             }
 
+            //una vez creada la carta, le asignamos la imagen, el tipo y el indice, para poder tratarlo despues
+            //el indice coincide con la creacion de cartas en el bucle
             nuevaCarta.GetComponent<CardScript>().frontal = imagenesFrente[pos];
             nuevaCarta.GetComponent <CardScript>().tipo = tipo[pos];
+            nuevaCarta.GetComponent<CardScript>().index = i;
             
             cards.Add(nuevaCarta);
 
@@ -102,6 +106,15 @@ public class GameManagerScript : MonoBehaviour
                 posY = -2;
             }
         }
+
+        //NOTAS Ej7
+        //con setActive(true/false), activamos o no el gameObject, para que desaparezca del juego, pero no se elimina
+        //con findObjectsWithTag, no lo encontrara
+        //cards[1].SetActive(false);
+        
+        //con destroy, eliminamos por completo el GO, habra que crearlo de nuevo con el prefab.
+        //Destroy(cards[1]);
+
 
     }
 
@@ -123,26 +136,38 @@ public class GameManagerScript : MonoBehaviour
         imagenesFrente.RemoveAt(valor);
     }
 
-    public void clickOnCard(int tipo)
+    public void clickOnCard(int tipo, int index)
     {
-        Debug.Log("clickOnCard " + tipo);
+        Debug.Log("clickOnCard " + tipo + "indice " + index);
 
         if(state == 1)
         {
             cartaArriba = tipo;
             state = 2;
+            cartaIndex = index;
         }
         else //state = 2
         {
             if(tipo == cartaArriba)
             {
                 Debug.Log("Ha salido pareja");
+                //Ej7
+                //si sale pareja, desactivamos las cartas para que desaparezcan
+                //con cartaindex, seleccionamos tambien la primera carta de la pareja, para desactivarla
+                cards[index].SetActive(false);
+                cards[cartaIndex].SetActive(false);
             }
             else
             {
                 Debug.Log("NO ha salido pareja");
+                //Ej7
+                //si no hay pareja, llamamoms a la funcion voltea, para que voltee las cartas
+                cards[index].GetComponent<CardScript>().Voltea();
+                cards[cartaIndex].GetComponent<CardScript>().Voltea();
             }
             state = 1;
         }
     }
+
+    
 }
