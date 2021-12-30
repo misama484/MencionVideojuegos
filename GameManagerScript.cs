@@ -17,7 +17,13 @@ public class GameManagerScript : MonoBehaviour
     private int valor;
     //EJ5 Este array contiene los nombre de las cartas, coinciden con la posicion de cada una de ellas en la lista de gamemanager
     // en la lista de imagenes de unity tenemos las 5 cartas 2 veces en orden, por lo que repetimos los nombres
-    string[] tipo = { "Bruja", "Guarda", "Asesino", "Ovispo", "Contable", "Bruja", "Guarda", "Asesino", "Ovispo", "Contable" };
+    //string[] tipo = { "Bruja", "Guarda", "Asesino", "Ovispo", "Contable", "Bruja", "Guarda", "Asesino", "Ovispo", "Contable" };
+    //tipo con el numero de las cartas
+    int[] tipo = { 7, 1, 0, 9 ,6 };
+    int[] contador = { 0, 0, 0, 0, 0, };
+    //variable estado, definira en que estado esta la carta (Ej6)
+    int state = 1;
+    int cartaArriba;
 
 
 
@@ -68,13 +74,25 @@ public class GameManagerScript : MonoBehaviour
         {
             nuevaCarta = Instantiate(myPrefab, new Vector3(posX, posY, 0), Quaternion.identity);
             //metodo que anyade la imagen aleatoria
-            anyadeImagen(nuevaCarta);
+            //anyadeImagen(nuevaCarta);
             nuevaCarta.name = "card" + i;
 
-            //para asignar la imagen de frente aleatoria, usamos la funcion RandomRange de unity(devuelve un int entre minValor y maxValor-1)
-                //int valor = Random.Range(0, 5);
-            //accedemos a la prop fontal del GO nuevaCarta y le asignamos la posicion valor de la lista de imagenes
-                //nuevaCarta.GetComponent<CardScript>().frontal = imagenesFrente[valor];
+            bool encontrado = false;
+            int pos = 0;
+
+            while (!encontrado)
+            {
+                pos = Random.Range(0, 5);
+                if(contador [pos] < 2)
+                {
+                    contador [pos] +=1;
+                    encontrado = true;
+                }
+            }
+
+            nuevaCarta.GetComponent<CardScript>().frontal = imagenesFrente[pos];
+            nuevaCarta.GetComponent <CardScript>().tipo = tipo[pos];
+            
             cards.Add(nuevaCarta);
 
             posX += 3;
@@ -105,8 +123,26 @@ public class GameManagerScript : MonoBehaviour
         imagenesFrente.RemoveAt(valor);
     }
 
-    public void clickOnCard(string tipo)
+    public void clickOnCard(int tipo)
     {
         Debug.Log("clickOnCard " + tipo);
+
+        if(state == 1)
+        {
+            cartaArriba = tipo;
+            state = 2;
+        }
+        else //state = 2
+        {
+            if(tipo == cartaArriba)
+            {
+                Debug.Log("Ha salido pareja");
+            }
+            else
+            {
+                Debug.Log("NO ha salido pareja");
+            }
+            state = 1;
+        }
     }
 }
