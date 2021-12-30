@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManagerScript : MonoBehaviour
 {
     //Declaramos un GO donde asignaremos el prefab(en unity)
     public GameObject myPrefab;
-
+    //Ej9, creamos un contador de parejas con un GO-UI text desde Unity
+    //IMPORTANTE asignar el contCartas a GameManagerScrip en unity, arrastrar ContCartas a la variable text creada en GameManager
+    //creamos un objeto GO para manejar el GameObject creado en Unity
+    public GameObject contCartas;
+    //contador de parejas encontradas
+    public int contParejas = 0;
     //EJ2 creamos la lista que almacenara las cartas
     List<GameObject> cards = new List<GameObject>();
 
@@ -111,9 +117,12 @@ public class GameManagerScript : MonoBehaviour
         //con setActive(true/false), activamos o no el gameObject, para que desaparezca del juego, pero no se elimina
         //con findObjectsWithTag, no lo encontrara
         //cards[1].SetActive(false);
-        
+
         //con destroy, eliminamos por completo el GO, habra que crearlo de nuevo con el prefab.
         //Destroy(cards[1]);
+
+        //anyadir libreria UnityEngine.UI, cuando salga error, pusar en la bombilla
+        contCartas.GetComponent<Text>().text = "Numero de parejas: " + contParejas;
 
 
     }
@@ -154,8 +163,13 @@ public class GameManagerScript : MonoBehaviour
                 //Ej7
                 //si sale pareja, desactivamos las cartas para que desaparezcan
                 //con cartaindex, seleccionamos tambien la primera carta de la pareja, para desactivarla
+                //Ej9
+                //sumamos 1 a contParejas y accedemos al GO para mostrar el texto
+                contParejas++;
+                contCartas.GetComponent<Text>().text = "Numero de parejas: " + contParejas;
                 cards[index].SetActive(false);
                 cards[cartaIndex].SetActive(false);
+                
             }
             else
             {
