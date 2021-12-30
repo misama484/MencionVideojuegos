@@ -160,13 +160,26 @@ public class GameManagerScript : MonoBehaviour
             else
             {
                 Debug.Log("NO ha salido pareja");
+                //como index es una variable de cardScript, no es accesible desde la corrutina
+                //pasamos el index desde aqui como parametro
+                StartCoroutine(EsperaAVoltear(index));
                 //Ej7
                 //si no hay pareja, llamamoms a la funcion voltea, para que voltee las cartas
-                cards[index].GetComponent<CardScript>().Voltea();
-                cards[cartaIndex].GetComponent<CardScript>().Voltea();
+                //cards[index].GetComponent<CardScript>().Voltea();
+                //cards[cartaIndex].GetComponent<CardScript>().Voltea();
             }
             state = 1;
         }
+    }
+
+    //Ej8, Corrutina, ejecuta el codigo "en paralelo a la ejecucion principal.
+    //ponemos un yield waitForSeconds, para que espere 2 segundos antes de volver a la posicion
+    //inicial de las cartas. EL CODIGO PRINCIPAL SIGUE SU CURSO SIN ESPERAR.
+    IEnumerator EsperaAVoltear(int index) //recibe index como parametro, para pasarlo desde la ejecucion principal                                           
+    {
+        yield return new WaitForSeconds(2);
+        cards[index].GetComponent<CardScript>().Voltea();
+        cards[cartaIndex].GetComponent<CardScript>().Voltea();
     }
 
     
